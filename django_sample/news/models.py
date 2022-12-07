@@ -1,10 +1,6 @@
 from django.db import models
 
-# Только для тестирования и разработки!
-import sys
-sys.path.append(".")
-
-from src.django_editorjs_field import EditorJSField
+from django_editorjs_field import EditorJSField
 
 
 class Article(models.Model):
