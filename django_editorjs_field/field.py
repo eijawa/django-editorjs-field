@@ -7,7 +7,8 @@ class EditorJSField(models.Field):
     description = "An EditorJS field."
 
     def __init__(self, *args, **kwargs) -> None:
-        self.config = kwargs.pop("config", {})
+        self.config = kwargs.copy()
+        kwargs.clear()
         super().__init__(*args, **kwargs)
 
     def deconstruct(self):
