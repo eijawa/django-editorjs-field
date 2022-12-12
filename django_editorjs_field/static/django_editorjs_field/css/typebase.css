@@ -1,3 +1,11 @@
+div[data-editorjs-holder] {
+    display: flex;
+}
+
+.ce-toolbar {
+    right: unset;
+}
+
 .ce-block__content * {
     background: revert !important;
     color: revert !important;
