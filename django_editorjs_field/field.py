@@ -1,6 +1,6 @@
 from django.db import models
 
-from .formfield import EditorJSFormField
+from .widget import EditorJSWidget
 
 
 class EditorJSField(models.Field):
@@ -19,11 +19,8 @@ class EditorJSField(models.Field):
         return name, path, args, kwargs
 
     def formfield(self, **kwargs):
-        return super().formfield(**{
-            "form_class": EditorJSFormField,
-            "config": self.config,
-            **kwargs
-        })
+        kwargs["widget"] = EditorJSWidget(config=self.config)
+        return super().formfield(**kwargs)
 
     def get_internal_type(self) -> str:
         return "EditorJSField"

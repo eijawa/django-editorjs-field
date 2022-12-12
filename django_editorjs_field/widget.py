@@ -10,15 +10,24 @@ class EditorJSWidget(Widget):
 
     def __init__(self, *args, **kwargs):
         self.config = kwargs.pop("config", {})
+
         super().__init__(*args, **kwargs)
+
+        # TODO: Узнать, почему конструктор класса вызывается дважды, что ведёт к ошибке с конфигом
 
     @property
     def media(self):
-        js = [
-            "//cdn.jsdelivr.net/npm/@editorjs/editorjs",
-            "//cdn.jsdelivr.net/npm/@editorjs/header",
-            "django_editorjs_field/js/editor.js",
-        ]
+        js = []
+
+        for tool in self.config["tools"]:
+            js.append(tool.url)
+
+        js.extend(
+            [
+                "//cdn.jsdelivr.net/npm/@editorjs/editorjs",
+                "django_editorjs_field/js/editor.js",
+            ]
+        )
 
         return Media(js=js, css={"all": [""]})
 
@@ -26,10 +35,16 @@ class EditorJSWidget(Widget):
         if not renderer:
             renderer = get_default_renderer()
 
+        config = self.config.copy()
+        if type(config["tools"]) == list:
+            config["tools"] = {
+                tool.__class__.__name__: tool.config for tool in config["tools"]
+            }
+
         context = self.get_context(name, value, attrs)
         context["widget"].update(
             {
-                "config": json.dumps(self.config),
+                "config": json.dumps(config),
             }
         )
 
