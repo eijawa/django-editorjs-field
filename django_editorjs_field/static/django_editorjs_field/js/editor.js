@@ -1,4 +1,4 @@
-;(function (){
+; (function () {
     addEventListener("DOMContentLoaded", initDjangoEditorJSField);
 
     function initDjangoEditorJSField() {
@@ -10,6 +10,7 @@
     }
 
     function initFormFieldEditor(fieldId) {
+        const dataStorage = document.getElementById(fieldId);
         const editorHolder = document.getElementById(fieldId + "_editorjs_holder");
         const editorConfig = JSON.parse(editorHolder.getAttribute("data-editorjs-config"));
         const tools = editorConfig.tools;
@@ -28,8 +29,11 @@
 
         editorConfig.tools = tools;
 
-        console.debug(editorConfig);
-
-        const editor = new EditorJS({holder: fieldId + "_editorjs_holder", ...editorConfig});
+        const editor = new EditorJS({
+            holder: fieldId + "_editorjs_holder",
+            data: JSON.parse(dataStorage.value),
+            onChange: (api, event) => editor.save().then(outputData => dataStorage.value = JSON.stringify(outputData)), 
+            ...editorConfig 
+        });
     }
 })();
