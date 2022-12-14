@@ -1,6 +1,5 @@
 from django.template.loader import render_to_string
 
-from devtools import debug
 
 class EditorJSTool(object):
     def __init__(self, name, url, template_name, class_name=None, **kwargs):
