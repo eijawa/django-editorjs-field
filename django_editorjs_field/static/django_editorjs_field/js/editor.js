@@ -13,6 +13,10 @@
         const dataStorage = document.getElementById(fieldId);
         const editorHolder = document.getElementById(fieldId + "_editorjs_holder");
         const editorConfig = JSON.parse(editorHolder.getAttribute("data-editorjs-config"));
+
+        const DEBUG = editorConfig.DEBUG;
+        delete editorConfig.DEBUG;
+
         const tools = editorConfig.tools;
 
         for (let plugin in editorConfig.tools) {
@@ -28,6 +32,13 @@
         }
 
         editorConfig.tools = tools;
+
+        if (DEBUG === true) {
+            console.group(`Configuration on field ${fieldId}:`);
+            console.debug("List of used EditorJS tools:\n", tools);
+            console.debug("Full EditorJSConfig\n", editorConfig);
+            console.groupEnd();
+        }
 
         const editor = new EditorJS({
             holder: fieldId + "_editorjs_holder",

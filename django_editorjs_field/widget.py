@@ -3,6 +3,7 @@ import json
 from django.forms import Widget, Media
 from django.utils.safestring import mark_safe
 from django.forms.renderers import get_default_renderer
+from django.conf import settings
 
 
 class EditorJSWidget(Widget):
@@ -40,6 +41,8 @@ class EditorJSWidget(Widget):
             config["tools"] = {
                 tool.name: tool.config for tool in config["tools"]
             }
+
+        config["DEBUG"] = settings.DEBUG
 
         context = self.get_context(name, value, attrs)
         context["widget"].update(
