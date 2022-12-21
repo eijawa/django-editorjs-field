@@ -53,7 +53,7 @@ class EditorJSTool(object):
         """
 
         self.name = name
-        self.url = self.define_url(url)
+        self.url = self.__define_url(url)
         self.template_name = template_name
 
         self.class_name = name
@@ -77,7 +77,7 @@ class EditorJSTool(object):
 
         return render_to_string(self.template_name, data)
 
-    def define_url(self, url : str) -> str:
+    def __define_url(self, url : str) -> str:
         if not url:
             raise Exception("URL is not specified!")
 
