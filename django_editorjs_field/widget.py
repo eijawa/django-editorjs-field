@@ -29,7 +29,7 @@ class EditorJSWidget(Widget):
             ]
         )
 
-        return Media(js=js, css={"all": [""]})
+        return Media(js=js, css={"all": ["django_editorjs_field/css/typebase.css"]})
 
     def render(self, name, value, attrs=None, renderer=None):
         if not renderer:
@@ -38,7 +38,7 @@ class EditorJSWidget(Widget):
         config = self.config.copy()
         if type(config["tools"]) == list:
             config["tools"] = {
-                tool.__class__.__name__: tool.config for tool in config["tools"]
+                tool.name: tool.config for tool in config["tools"]
             }
 
         context = self.get_context(name, value, attrs)
