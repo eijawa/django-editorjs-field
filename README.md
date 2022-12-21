@@ -40,6 +40,9 @@ INSTALLED_APPS = [
 Example of field configuration:
 
 ```
+from django_editorjs_field.tool import EditorJSTool as Tool
+
+
 EditorJSField(
     tools=[
         Tool(name="Header", url="//cdn.jsdelivr.net/npm/@editorjs/header", template_name="tools/h.html"),
@@ -87,22 +90,35 @@ Example of templatetag:
 All tools (plugins) are independent objects. Tool constructor define as:
 
 ```
-def __init__(self, name, url, template_name, class_name=None, **kwargs):
-```
+def __init__(self, name: str, url: str, template_name: str, class_name: str | None = None, **kwargs):
+    """
+        An EditorJSTool constructor
 
-where:
-| kwarg         | description                                                |
-|---------------|------------------------------------------------------------|
-| name          | A name of plugin. At the same time - it is a plugin type.  |
-| url           | URL or Path to JS-file.                                    |
-| template_name | A template name for render element in template.            |
-| class_name    | Default=name of plugin. Alternative class_name for plugin. |
+        ...
+
+        Attributes
+        ==========
+        name : str
+            Must be unique!
+            A name of a Tool. Used as a type in EditorJS.
+        url : str
+            A URL or Path to JS-file of Tool.
+        template_name : str
+            A Path to template for output rendering.
+        class_name : str | None
+            Name attribute is used by default.
+            A class name of Tool, which JS need to call constructor for.
+    """
+```
 
 ### Override Paragraph Tool
 
 In order to override Paragraph Tool you need to pass it as a tool into field. Example:
 
 ```
+from django_editorjs_field.tool import EditorJSTool as Tool
+
+
 EditorJSField(
     tools=[
         Tool(
