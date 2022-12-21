@@ -2,7 +2,56 @@ from django.template.loader import render_to_string
 
 
 class EditorJSTool(object):
-    def __init__(self, name, url, template_name, class_name=None, **kwargs):
+    """
+    A class representing a EditorJS Tool (Plugin).
+
+    ...
+
+    Attributes
+    ==========
+    name : str
+        Must be unique!
+        A name of a Tool. Used as a type in EditorJS.
+    url : str
+        A URL or Path to JS-file of Tool.
+    template_name : str
+        A Path to template for output rendering.
+    class_name : str | None
+        Name attribute is used by default.
+        A class name of Tool, which JS need to call constructor for.
+
+    Properties
+    ==========
+    config : dict
+        Read-only.
+        A Tool configuration dictionary property.
+
+    Methods
+    =======
+    render() -> str:
+        Render Tool with appropriate template into HTML string.
+    """
+
+    def __init__(self, name: str, url: str, template_name: str, class_name: str | None = None, **kwargs):
+        """
+            An EditorJSTool constructor
+
+            ...
+
+            Attributes
+            ==========
+            name : str
+                Must be unique!
+                A name of a Tool. Used as a type in EditorJS.
+            url : str
+                A URL or Path to JS-file of Tool.
+            template_name : str
+                A Path to template for output rendering.
+            class_name : str | None
+                Name attribute is used by default.
+                A class name of Tool, which JS need to call constructor for.
+        """
+
         self.name = name
         self.url = self.define_url(url)
         self.template_name = template_name
@@ -16,12 +65,19 @@ class EditorJSTool(object):
 
     @property
     def config(self):
+        """
+        Read-only.
+        A Tool configuration dictionary property.
+        """
+
         return self._config
 
-    def render(self, data):
+    def render(self, data : str) -> str:
+        """Render Tool with appropriate template into HTML string."""
+
         return render_to_string(self.template_name, data)
 
-    def define_url(self, url):
+    def define_url(self, url : str) -> str:
         if not url:
             raise Exception("URL is not specified!")
 

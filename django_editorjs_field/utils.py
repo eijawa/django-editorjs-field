@@ -3,7 +3,23 @@ from django.utils.safestring import mark_safe
 from .field import EditorJSField
 
 
-def render(obj) -> str:
+def render(obj: EditorJSField) -> str:
+    """
+    Method accepts an object and return it's EditorJSField HTML corresponding representation.
+
+    ...
+
+    Attributes
+    ==========
+    obj : django.models.Model
+        django.models.Model instance.
+
+    Raises
+    ======
+    AttributeError
+        Field of type EditorJSField is not presented.
+    """
+
     field = None
 
     for f in obj._meta.get_fields():
