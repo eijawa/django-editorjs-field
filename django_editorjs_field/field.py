@@ -7,6 +7,12 @@ class EditorJSField(models.JSONField):
     description = "An EditorJS field."
 
     def __init__(self, *args, **kwargs) -> None:
+        unexceptable_kwargs = ["holderId", "holder", "onReady", "onChange"]
+
+        for u_k in unexceptable_kwargs:
+            if u_k in kwargs.keys():
+                del kwargs[u_k]
+
         self.config = kwargs.copy()
         kwargs.clear()
         super().__init__(*args, **kwargs)
