@@ -4,15 +4,12 @@ class EditorJSTool(object):
     def __init__(self, name, url, class_name=None, **kwargs):
         self.name = name
         self.url = self.define_url(url)
-
-        self._config = {
-            "class": name
-        }
+        self.class_name = name
 
         if class_name:
-            self._config["class"] = class_name
+            self.class_name = class_name
 
-        self._config.update(kwargs)
+        self._config = {"class": self.class_name, **kwargs}
 
     @property
     def config(self):
