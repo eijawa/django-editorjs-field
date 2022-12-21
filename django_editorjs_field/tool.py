@@ -37,9 +37,10 @@ class EditorJSTool(object):
 
         return url
 
+    # Поскольку названия плагинов должны быть уникальны,
+    # тк именно они используются в блоке в качестве типа
+    def __eq__(self, other):
+        return self.name == other.name
 
-if __name__ == "__main__":
-    e = EditorJSTool(name="Header", class_name="header", inlineToolBar=True)
-    debug(e.__dict__)
-    debug(e.render())
-    debug(e.config)
+    def __hash__(self):
+        return hash(self.name)
