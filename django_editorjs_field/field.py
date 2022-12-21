@@ -1,7 +1,9 @@
 from django.db import models
 
+from .formfield import EditorJSFormField
 
-class EditorJSField(models.JSONField):
+
+class EditorJSField(models.Field):
     description = "An EditorJS field."
 
     def __init__(self, *args, **kwargs) -> None:
@@ -15,9 +17,14 @@ class EditorJSField(models.JSONField):
         return name, path, args, kwargs
 
     def formfield(self, **kwargs):
-        # Функция для получения Widget этого поля в форме
-        return super().formfield(**kwargs)
+        return super().formfield(**{
+            "form_class": EditorJSFormField,
+            **kwargs
+        })
 
-    def render(self):
-        # Функция для преобразования JSON-данных в HTML
-        pass
+    def get_internal_type(self) -> str:
+        return "EditorJSField"
+
+    # def render(self):
+    #     # Функция для преобразования JSON-данных в HTML
+    #     pass

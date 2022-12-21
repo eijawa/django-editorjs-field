@@ -3,6 +3,8 @@
 import os
 import sys
 
+# Только для тестирования и разработки!
+sys.path.append(".")
 
 def main():
     """Run administrative tasks."""
