@@ -6,6 +6,10 @@ from .tool import EditorJSTool as Tool
 from .widget import EditorJSWidget
 
 
+def no_tools_provided_warning():
+    from warnings import warn
+    warn("You are running EditorJSField without any plugins! Only default - Paragraph - will be available.")
+
 class EditorJSField(models.JSONField):
     description = "An EditorJS field."
 
@@ -22,10 +26,15 @@ class EditorJSField(models.JSONField):
         if "tools" in self.config.keys():
             self.config["tools"] = list(set(self.config["tools"]))
 
+            if not len(self.config["tools"]):
+                no_tools_provided_warning()
+
             for tool_idx in range(len(self.config["tools"])):
                 if self.config["tools"][tool_idx].class_name == "Paragraph":
                     self.__paragraph_tool = self.config["tools"].pop(tool_idx)
                     break
+        else:
+            no_tools_provided_warning()
 
         kwargs.clear()
         super().__init__(*args, **kwargs)
