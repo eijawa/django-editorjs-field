@@ -4,6 +4,15 @@
 
 An EditorJS Field with dependency injection of tools support for Django >4.*
 
+## Features
+
+- [x] Dependency injection for tools
+- [x] Templatetag support
+- [x] All EditorJS configuration supported
+- [x] Without custom backend
+- [x] Customized editor in admin
+- [x] [Debug support](#about-debug-support)
+
 ## Installation and Usage
 
 ### Installation
@@ -72,15 +81,6 @@ Example of templatetag:
     </div>
 {% endfor %}
 ```
-
-## Features
-
-- [x] Dependency injection for tools
-- [x] Templatetag support
-- [x] All EditorJS configuration supported
-- [x] Without custom backend
-- [x] Customized editor in admin
-- [x] [Debug support](#about-debug-support)
 
 ## Tools
 
