@@ -1,9 +1,11 @@
 [tool.poetry]
 name = "django-editorjs-field"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "An EditorJS Field with dependency injection of tools support for Django >4.*"
+authors = ["Evgeniy Gribanov <evgeniy.therabbit@gmail.com>"]
 readme = "README.md"
+repository = "https://github.com/eijawa/django-editorjs-field"
+license = "MIT"
 packages = [{include = "django_editorjs_field"}]
 
 [tool.poetry.dependencies]
@@ -14,6 +16,7 @@ django = "^4.1.3"
 [tool.poetry.group.dev.dependencies]
 black = "^22.10.0"
 devtools = "^0.10.0"
+memray = "^1.5.0"
 
 [build-system]
 requires = ["poetry-core"]
