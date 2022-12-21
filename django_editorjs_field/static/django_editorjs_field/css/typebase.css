@@ -19,7 +19,8 @@ div[data-editorjs-holder] {
 }
 
 /* Copy & Lists */
-.ce-block__content p {
+.ce-block__content p,
+.ce-paragraph {
     line-height: 1.5rem;
     margin-top: 1.5rem;
     margin-bottom: 0;
