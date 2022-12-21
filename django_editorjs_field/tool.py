@@ -1,11 +1,12 @@
 from devtools import debug
 
 class EditorJSTool(object):
-    def __init__(self, url, class_name=None, **kwargs):
+    def __init__(self, name, url, class_name=None, **kwargs):
+        self.name = name
         self.url = self.define_url(url)
 
         self._config = {
-            "class": self.__class__.__name__
+            "class": name
         }
 
         if class_name:
@@ -36,11 +37,9 @@ class EditorJSTool(object):
 
         return url
 
-class Header(EditorJSTool):
-    pass
 
 if __name__ == "__main__":
-    e = Header(class_name="header", inlineToolBar=True)
+    e = EditorJSTool(name="Header", class_name="header", inlineToolBar=True)
     debug(e.__dict__)
     debug(e.render())
     debug(e.config)
