@@ -1,9 +1,13 @@
+from django.template.loader import render_to_string
+
 from devtools import debug
 
 class EditorJSTool(object):
-    def __init__(self, name, url, class_name=None, **kwargs):
+    def __init__(self, name, url, template_name, class_name=None, **kwargs):
         self.name = name
         self.url = self.define_url(url)
+        self.template_name = template_name
+
         self.class_name = name
 
         if class_name:
@@ -15,8 +19,8 @@ class EditorJSTool(object):
     def config(self):
         return self._config
 
-    def render(self):
-        raise NotImplementedError()
+    def render(self, data):
+        return render_to_string(self.template_name, data)
 
     def define_url(self, url):
         if not url:

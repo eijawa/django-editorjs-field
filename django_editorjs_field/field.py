@@ -47,10 +47,18 @@ class EditorJSField(models.JSONField):
 
     @cached_property
     def tools(self):
-        return { tool.name:tool for tool in [self.__get_paragraph_tool(), *self.config["tools"]] }
+        return {
+            tool.name: tool
+            for tool in [self.__get_paragraph_tool(), *self.config["tools"]]
+        }
 
     def __get_paragraph_tool(self):
         if not self.__paragraph_tool:
-            self.__paragraph_tool = Tool(name="paragraph", class_name="Paragraph", url="//cdn.jsdelivr.net/npm/@editorjs/paragraph")
+            self.__paragraph_tool = Tool(
+                name="paragraph",
+                class_name="Paragraph",
+                url="//cdn.jsdelivr.net/npm/@editorjs/paragraph",
+                template_name="django_editorjs_field/tools/p.html",
+            )
 
         return self.__paragraph_tool
