@@ -7,6 +7,7 @@ class EditorJSField(models.Field):
     description = "An EditorJS field."
 
     def __init__(self, *args, **kwargs) -> None:
+        self.config = kwargs.pop("config", {})
         super().__init__(*args, **kwargs)
 
     def deconstruct(self):
@@ -19,6 +20,7 @@ class EditorJSField(models.Field):
     def formfield(self, **kwargs):
         return super().formfield(**{
             "form_class": EditorJSFormField,
+            "config": self.config,
             **kwargs
         })
 
