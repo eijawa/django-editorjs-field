@@ -32,24 +32,31 @@ class EditorJSTool(object):
         Render Tool with appropriate template into HTML string.
     """
 
-    def __init__(self, name: str, url: str, template_name: str, class_name: str | None = None, **kwargs):
+    def __init__(
+        self,
+        name: str,
+        url: str,
+        template_name: str,
+        class_name: str | None = None,
+        **kwargs
+    ):
         """
-            An EditorJSTool constructor
+        An EditorJSTool constructor
 
-            ...
+        ...
 
-            Attributes
-            ==========
-            name : str
-                Must be unique!
-                A name of a Tool. Used as a type in EditorJS.
-            url : str
-                A URL or Path to JS-file of Tool.
-            template_name : str
-                A Path to template for output rendering.
-            class_name : str | None
-                Name attribute is used by default.
-                A class name of Tool, which JS need to call constructor for.
+        Attributes
+        ==========
+        name : str
+            Must be unique!
+            A name of a Tool. Used as a type in EditorJS.
+        url : str
+            A URL or Path to JS-file of Tool.
+        template_name : str
+            A Path to template for output rendering.
+        class_name : str | None
+            Name attribute is used by default.
+            A class name of Tool, which JS need to call constructor for.
         """
 
         self.name = name
@@ -72,12 +79,12 @@ class EditorJSTool(object):
 
         return self._config
 
-    def render(self, data : str) -> str:
+    def render(self, data: str) -> str:
         """Render Tool with appropriate template into HTML string."""
 
         return render_to_string(self.template_name, data)
 
-    def __define_url(self, url : str) -> str:
+    def __define_url(self, url: str) -> str:
         if not url:
             raise Exception("URL is not specified!")
 

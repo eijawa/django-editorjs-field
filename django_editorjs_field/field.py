@@ -8,7 +8,11 @@ from .widget import EditorJSWidget
 
 def no_tools_provided_warning():
     from warnings import warn
-    warn("You are running EditorJSField without any plugins! Only default - Paragraph - will be available.")
+
+    warn(
+        "You are running EditorJSField without any plugins! Only default - Paragraph - will be available."
+    )
+
 
 class EditorJSField(models.JSONField):
     description = "An EditorJS field."
