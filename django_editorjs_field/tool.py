@@ -1,6 +1,6 @@
 from devtools import debug
 
-class EditorJSPlugin(object):
+class EditorJSTool(object):
     def __init__(self, url, class_name=None, **kwargs):
         self.url = self.define_url(url)
 
@@ -36,7 +36,7 @@ class EditorJSPlugin(object):
 
         return url
 
-class Header(EditorJSPlugin):
+class Header(EditorJSTool):
     pass
 
 if __name__ == "__main__":
