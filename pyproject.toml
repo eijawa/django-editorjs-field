@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "django-editorjs-field"
+name = "django-editorjs-field-next"
 version = "0.1.0"
 description = "An EditorJS Field with dependency injection of tools support for Django >4.*"
 authors = ["Evgeniy Gribanov <evgeniy.therabbit@gmail.com>"]

@@ -16,12 +16,12 @@ An EditorJS Field with dependency injection of tools support for Django >4.*
 ## Installation and Usage
 
 ### Installation
-> Some day it will be...
+> Some day it will be *django-editorjs-field*...
 
 Install package via `pip`:
 
 ```
-pip install django-editorjs-field
+pip install django-editorjs-field-next
 ```
 
 Add package to `INSTALLED_APPS`:
