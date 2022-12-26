@@ -1,0 +1,48 @@
+# This workflow will upload a Python Package using Twine when a release is created
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Publish Python Package
+
+on:
+  push:
+    tags: ['v*']
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  deploy:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.0
+        with:
+          fetch-depth: 0
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v2.3.1
+        with:
+          python-version: 3.11
+      - id: cache-dependencies
+        name: Cache dependencies
+        uses: actions/cache@v2.1.7
+        with:
+          path: ${{ github.workspace }}/.venv
+          key: dependencies-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: dependencies-
+      - name: Install dependencies
+        if: steps.cache-dependencies.cache-hit != 'true'
+        run: |
+          python -m pip install -U pip poetry
+          poetry --version
+          poetry check --no-interaction
+          poetry config virtualenvs.in-project true
+          poetry install --no-interaction
+      - name: Build artifacts
+        run: |
+          poetry publish -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --build --no-interaction
