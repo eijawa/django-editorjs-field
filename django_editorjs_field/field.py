@@ -29,7 +29,7 @@ class EditorJSField(models.JSONField):
             + super().__init__.__code__.co_varnames
         )
 
-        self.config = {}
+        self.config = {"tools": kwargs.pop("tools", [])}
 
         for k in kwargs.copy():
             if k not in not_config_kwargs:
