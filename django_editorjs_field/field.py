@@ -17,14 +17,23 @@ def no_tools_provided_warning():
 class EditorJSField(models.JSONField):
     description = "An EditorJS field."
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         unexceptable_kwargs = ["holderId", "holder", "onReady", "onChange"]
 
         for u_k in unexceptable_kwargs:
             if u_k in kwargs.keys():
                 del kwargs[u_k]
 
-        self.config = kwargs.copy()
+        not_config_kwargs = set(
+            models.Field.__init__.__code__.co_varnames
+            + super().__init__.__code__.co_varnames
+        )
+
+        self.config = {}
+
+        for k in kwargs.copy():
+            if k not in not_config_kwargs:
+                self.config[k] = kwargs.pop(k)
 
         self.__paragraph_tool = None
         if "tools" in self.config.keys():
@@ -40,8 +49,7 @@ class EditorJSField(models.JSONField):
         else:
             no_tools_provided_warning()
 
-        kwargs.clear()
-        super().__init__(*args, **kwargs)
+        super().__init__(**kwargs)
 
     def deconstruct(self):
         name, path, args, kwargs = super().deconstruct()
