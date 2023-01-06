@@ -9,23 +9,23 @@ class Article(models.Model):
 
     description = EditorJSField(
         tools=[
-            Tool(name="Header", url="//cdn.jsdelivr.net/npm/@editorjs/header", template_name="tools/h.html"),
+            Tool(
+                name="Header",
+                url="//cdn.jsdelivr.net/npm/@editorjs/header",
+                template_name="tools/h.html",
+            ),
             Tool(
                 name="Code",
                 url="https://cdn.jsdelivr.net/npm/@editorjs/code@2.8.0",
                 class_name="CodeTool",
-                template_name="tools/code.html"
-            )
+                template_name="tools/code.html",
+            ),
         ],
+        verbose_name="Body of Article",
         autofocus=False,
-        placeholder="EditorJSPlaceholder",
-        i18n={
-            "messages": {
-                "toolNames": {
-                    "Heading": "Заголовок"
-                }
-            }
-        }
+        # data={},
+        # placeholder="EditorJSPlaceholder",
+        i18n={"messages": {"toolNames": {"Heading": "Заголовок"}}},
     )
 
     last_edited = models.DateTimeField(auto_now=True)

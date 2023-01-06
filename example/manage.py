@@ -5,6 +5,8 @@ import sys
 
 # Only for testing and development purpose!
 sys.path.append(".")
+sys.path.append("..")
+
 
 def main():
     """Run administrative tasks."""
