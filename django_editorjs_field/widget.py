@@ -38,9 +38,7 @@ class EditorJSWidget(Widget):
 
         config = self.config.copy()
         if type(config["tools"]) == list:
-            config["tools"] = {
-                tool.name: tool.config for tool in config["tools"]
-            }
+            config["tools"] = {tool.name: tool.config for tool in config["tools"]}
 
         config["DEBUG"] = settings.DEBUG
 

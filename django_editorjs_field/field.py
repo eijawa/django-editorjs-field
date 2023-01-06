@@ -6,29 +6,50 @@ from .tool import EditorJSTool as Tool
 from .widget import EditorJSWidget
 
 
+def no_tools_provided_warning():
+    from warnings import warn
+
+    warn(
+        "You are running EditorJSField without any plugins! Only default - Paragraph - will be available."
+    )
+
+
 class EditorJSField(models.JSONField):
     description = "An EditorJS field."
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         unexceptable_kwargs = ["holderId", "holder", "onReady", "onChange"]
 
         for u_k in unexceptable_kwargs:
             if u_k in kwargs.keys():
                 del kwargs[u_k]
 
-        self.config = kwargs.copy()
+        not_config_kwargs = set(
+            models.Field.__init__.__code__.co_varnames
+            + super().__init__.__code__.co_varnames
+        )
+
+        self.config = {"tools": kwargs.pop("tools", [])}
+
+        for k in kwargs.copy():
+            if k not in not_config_kwargs:
+                self.config[k] = kwargs.pop(k)
 
         self.__paragraph_tool = None
         if "tools" in self.config.keys():
             self.config["tools"] = list(set(self.config["tools"]))
 
+            if not len(self.config["tools"]):
+                no_tools_provided_warning()
+
             for tool_idx in range(len(self.config["tools"])):
                 if self.config["tools"][tool_idx].class_name == "Paragraph":
                     self.__paragraph_tool = self.config["tools"].pop(tool_idx)
                     break
+        else:
+            no_tools_provided_warning()
 
-        kwargs.clear()
-        super().__init__(*args, **kwargs)
+        super().__init__(**kwargs)
 
     def deconstruct(self):
         name, path, args, kwargs = super().deconstruct()
