@@ -108,6 +108,8 @@ def __init__(self, name: str, url: str, template_name: str, class_name: str | No
         class_name : str | None
             Name attribute is used by default.
             A class name of Tool, which JS need to call constructor for.
+        version : str | None
+            Required plugin version.
     """
 ```
 
