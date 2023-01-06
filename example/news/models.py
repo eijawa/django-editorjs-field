@@ -11,7 +11,7 @@ class Article(models.Model):
         tools=[
             Tool(
                 name="Header",
-                url="//cdn.jsdelivr.net/npm/@editorjs/header",
+                url="//cdn.jsdelivr.net/npm/@editorjs/header@2.7.0",
                 template_name="tools/h.html",
             ),
             Tool(
