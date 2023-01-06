@@ -1,9 +1,5 @@
 div[data-editorjs-holder] {
-    display: flex;
-}
-
-.ce-toolbar {
-    right: unset;
+    padding-left: 160px;
 }
 
 .ce-block__content * {
