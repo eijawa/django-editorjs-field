@@ -1,4 +1,9 @@
+import urllib.request
+import urllib.error
+from urllib.parse import urlparse
+
 from django.template.loader import render_to_string
+from django.contrib.staticfiles import finders as static_finders
 
 
 class EditorJSTool(object):
@@ -8,7 +13,7 @@ class EditorJSTool(object):
     ...
 
     Attributes
-    ==========
+    ----------
     name : str
         Must be unique!
         A name of a Tool. Used as a type in EditorJS.
@@ -19,15 +24,17 @@ class EditorJSTool(object):
     class_name : str | None
         Name attribute is used by default.
         A class name of Tool, which JS need to call constructor for.
+    version : str | None
+        Required plugin version.
 
     Properties
-    ==========
+    ----------
     config : dict
         Read-only.
         A Tool configuration dictionary property.
 
     Methods
-    =======
+    -------
     render() -> str:
         Render Tool with appropriate template into HTML string.
     """
@@ -38,6 +45,7 @@ class EditorJSTool(object):
         url: str,
         template_name: str,
         class_name: str | None = None,
+        version: str | None = None,
         **kwargs
     ):
         """
@@ -46,7 +54,7 @@ class EditorJSTool(object):
         ...
 
         Attributes
-        ==========
+        ----------
         name : str
             Must be unique!
             A name of a Tool. Used as a type in EditorJS.
@@ -57,11 +65,15 @@ class EditorJSTool(object):
         class_name : str | None
             Name attribute is used by default.
             A class name of Tool, which JS need to call constructor for.
+        version : str | None
+            Required plugin version.
         """
 
         self.name = name
-        self.url = self.__define_url(url)
         self.template_name = template_name
+        self.version = version
+
+        self.url = self.__define_url(url)
 
         self.class_name = name
 
@@ -88,17 +100,28 @@ class EditorJSTool(object):
         if not url:
             raise Exception("URL is not specified!")
 
-        # TODO: Проверить URL на:
-        # 1. Это юрл?
-        # 1.1 Это абсолютная ссылка?
-        # 1.2 Это относительная ссылка?
-        # 2. Это путь к файлу?
-        # 2.1 Это абсолютный путь к файлу?
-        # 2.2 Это относительный путь к файлу?
+        if url.startswith("//"):
+            url = "https:" + url
 
-        # TODO: Добавить версию плагина, если это абсолютный юрл
+        parsed_url = urlparse(url)
+        if all([parsed_url.scheme, parsed_url.netloc]):
+            # It's not a file, so we can apply version to it
+            if self.version:
+                splits = url.split("@")
+                if len(splits) == 2:
+                    _url = splits[0]
+                else:
+                    _url = "@".join(splits[:-1])
 
-        # TODO: Если есть версия плагина, то проверить, возможно ли его скачать, если нет - вывести ошибку
+                url = _url + "@" + self.version
+
+            try:
+                req = urllib.request.Request(url, method="GET")
+                response = urllib.request.urlopen(req)
+                response.close()
+            except urllib.error.HTTPError as e:
+                if e.code == 404:
+                    raise Exception("Plugin is undefined or outdated!")
 
         return url
 

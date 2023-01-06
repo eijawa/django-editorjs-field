@@ -10,12 +10,12 @@ def render(obj: EditorJSField) -> str:
     ...
 
     Attributes
-    ==========
+    ----------
     obj : django.models.Model
         django.models.Model instance.
 
     Raises
-    ======
+    ------
     AttributeError
         Field of type EditorJSField is not presented.
     """
